@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    container_name: server-web-mern-closed-disk
+    command: yarn dev
+    volumes:
+      - /app
+      - /app/node_modules
+    ports:
+      - "3019:4019"
+        # MongoDB services
+  mongo_db:
+    container_name: mongodb-mern-closed-disk
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+  api:
+    build: .
+    container_name: server-api-mern-closed-disk
+    ports:
+      - "4019:3019"
+    environment:
+      PORT: 3019
+      MONGODB_URI: mongodb://mongo_db:27017
+      DB_NAME: DB
+      NAME: Aleksandr
+    depends_on:
+      - mongo_db  
+    volumes:
+      - /app
+      - /app/node_modules
+volumes:
+  mongo_db: {}

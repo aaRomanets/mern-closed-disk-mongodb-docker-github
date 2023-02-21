@@ -1,0 +1,28 @@
+.on-main {   
+    background-color: #E9E6E6;
+    margin-top: 5px;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.delete-avatar {   
+    margin-left: 10px;
+    background-color: #E9E6E6;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.avatar__upload-input {
+    display: none;
+}
+
+.avatar__upload-label {
+    margin-left: 10px;
+    border: 2px dashed #566885;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}

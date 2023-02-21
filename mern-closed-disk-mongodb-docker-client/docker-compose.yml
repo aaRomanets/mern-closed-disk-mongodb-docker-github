@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    container_name: mern-closed-disk-mongodb-client-frontend
+    ports:
+      - '2019:3000'
+    volumes:
+      - /app
+      - /app/node_modules
+    stdin_open: true
+    tty: true

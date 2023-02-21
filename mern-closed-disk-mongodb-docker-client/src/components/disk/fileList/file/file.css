@@ -1,0 +1,81 @@
+.file-list {
+    margin: 10px 0;
+    border-bottom: solid 2px #566885;
+    display: grid;
+    grid-template-columns: 1fr 4fr repeat(4,1fr);
+    align-items: center;
+}
+
+.file-list__img {
+    justify-self: center;
+}
+
+.file-list__date {
+    grid-column-start: 5;
+    justify-self: center;
+}
+
+.file-list__size {
+    grid-column-start: 6;
+    justify-self: center;
+}
+
+.file-list__btn {
+    display: none;
+}
+
+.file-list:hover .file-list__download {
+    grid-column-start: 5;
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    background-color: #E9E6E6;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.file-list:hover .file-list__delete {
+    grid-column-start: 6;
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    background-color: #E9E6E6;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.file-plate {
+    width: 250px;
+    height: 250px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.file-plate__img {
+    height: 100px;
+    width: 100px;
+}
+
+.file-plate__btn {
+    display: none;
+}
+
+.file-plate:hover .file-plate__delete {
+    display: block;
+    margin-top: 5px;
+    background-color: #E9E6E6;
+    border-radius: 8px;
+    padding: 5px 10px;
+}
+
+.file-plate:hover .file-plate__download {
+    display: block;
+    margin-top: 5px;
+    background-color: #E9E6E6;
+    border-radius: 8px;
+    padding: 5px 10px;
+}
