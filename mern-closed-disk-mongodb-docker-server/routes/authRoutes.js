@@ -15,30 +15,63 @@ router.post("/registration",
         check("password", "Password must be longer than 3 and shorter than 12").isLength({min: 3, max: 12})
     ],
     async (req,res) => {
-    try { 
+    try 
+    { 
         const errors = validationResult(req);
-        if (!errors.isEmpty()) {
+        if (!errors.isEmpty()) 
+        {
             return res.status(400).json({message: "Uncorrect request",errors})
         }
-
-        const {email,password} = req.body;
         
         //проверяем есть ли регистрируемый пользователь в базе данных
-        const candidate = await User.findOne({email});
-        if (candidate) {
-            return res.status(400).json({message: `User with email ${email} already exist`})
-        }
+        User.findOne({ email: req.body.email}, (err, userExist) => 
+        {
+            //существующего пользователя удаляем из базы данных
+            if (userExist != undefined)
+            {
+                User.findOneAndDelete(
+                {
+                    email: req.body.email
+                },
+                (err, doc) => {
+                });
+            }
 
-        const hashPassword = await bcrypt.hash(password, 5);
-        
-        //регистрируем нового пользователя
-        const user = new User({email, password: hashPassword});
-        await user.save();
+            //hash the password   
+            bcrypt.hash(req.body.password,10).then((hashedPassword) => 
+            {
+                //create a new user instance and collect the data
+                const user = new User({
+                    email: req.body.email,
+                    password: hashedPassword
+                });
 
-        //создаем папку соответствующую идентификатору нового пользователя
-        await fileService.createDir(new File({user: user.id, name: ""}))
-        return res.json({message: "User was created"});
-    } catch (e) {
+                //save the new user
+                user.save()
+                //return success if the new user is added to the database successfully
+                .then((_) => {
+                    fileService.createDir(new File({user: user.id, name: ""}))
+                    res.json({message: "User was created"});
+                })
+                //catch error if the new user wasn't added successfully to the database
+                .catch((error) => {
+                    res.status(500).send({
+                        message: "Error creating user",
+                        error
+                    })
+                })
+            })
+            //catch error if the password hash isn't successfull
+            .catch((e) => {
+                res.status(500).send({
+                    message: "Password was not hashed successfully",
+                    e
+                })
+            })
+        })
+    } 
+    catch (e) 
+    {
         console.log(e);
         res.send({message: "Server error"})
     }
